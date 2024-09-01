@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "typegen": "kysely-codegen --dialect postgres --camel-case --out-file ./database.types.ts"
+  },
+  "dependencies": {
+    "kysely-codegen": "0.16.3"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "tasks": {
+    "start": "deno serve -A --env --unstable-kv main.ts",
+    "dev": "deno serve -A --env --unstable-kv --watch main.ts"
+  },
+  "imports": {
+    "hono": "npm:hono@^4.5.10",
+    "kysely": "npm:kysely@^0.27.4",
+    "pg": "npm:pg@^8.12.0"
+  }
+}
