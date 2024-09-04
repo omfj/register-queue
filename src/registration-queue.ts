@@ -23,7 +23,7 @@ export const RegistrationQueue = new Queue<RegistrationRequest>(kv, {
       console.log(
         `🚫 Failed when processing queue, ${queueId}, user not complete, ${userId}`
       );
-      RegistrationResultModel.set(queueId, {
+      await RegistrationResultModel.set(queueId, {
         success: false,
         message:
           "Du må ha fylt ut studieinformasjon for å kunne registrere deg",
@@ -37,7 +37,7 @@ export const RegistrationQueue = new Queue<RegistrationRequest>(kv, {
       console.log(
         `🚫 Failed when processing queue, ${queueId}, happening not found, ${happeningId}`
       );
-      RegistrationResultModel.set(queueId, {
+      await RegistrationResultModel.set(queueId, {
         success: false,
         message: "Arrangementet finnes ikke",
       });
@@ -50,7 +50,7 @@ export const RegistrationQueue = new Queue<RegistrationRequest>(kv, {
       console.log(
         `🚫 Failed when processing queue, ${queueId}, spot ranges not found, ${happeningId}`
       );
-      RegistrationResultModel.set(queueId, {
+      await RegistrationResultModel.set(queueId, {
         success: false,
         message: "Du kan ikke melde deg på dette arrangementet",
       });
@@ -66,7 +66,7 @@ export const RegistrationQueue = new Queue<RegistrationRequest>(kv, {
       console.log(
         `🚫 Failed when processing queue, ${queueId}, user has existing registration as, ${existingRegistration.status}, ${userId}`
       );
-      RegistrationResultModel.set(queueId, {
+      await RegistrationResultModel.set(queueId, {
         success: false,
         message:
           existingRegistration.status === "registered"
@@ -84,7 +84,7 @@ export const RegistrationQueue = new Queue<RegistrationRequest>(kv, {
       console.log(
         `🚫 Failed when processing queue, ${queueId}, user not allowed to register, ${userId}`
       );
-      RegistrationResultModel.set(queueId, {
+      await RegistrationResultModel.set(queueId, {
         success: false,
         message: "Du kan ikke melde deg på dette arrangementet",
       });
@@ -106,7 +106,7 @@ export const RegistrationQueue = new Queue<RegistrationRequest>(kv, {
       console.log(
         `🚫 Failed when processing queue, ${queueId}, not all questions answered, ${userId}`
       );
-      RegistrationResultModel.set(queueId, {
+      await RegistrationResultModel.set(queueId, {
         success: false,
         message: "Du må svare på alle spørsmålene",
       });
@@ -125,7 +125,7 @@ export const RegistrationQueue = new Queue<RegistrationRequest>(kv, {
       console.log(
         `🚫 Failed when processing queue, ${queueId}, failed to insert registration, ${userId}`
       );
-      RegistrationResultModel.set(queueId, {
+      await RegistrationResultModel.set(queueId, {
         success: false,
         message: "Noe gikk galt, prøv igjen",
       });
@@ -136,7 +136,7 @@ export const RegistrationQueue = new Queue<RegistrationRequest>(kv, {
       `📣 User, ${userId}, is registered as, ${result}, for happening, ${happeningId}`
     );
 
-    RegistrationResultModel.set(queueId, {
+    await RegistrationResultModel.set(queueId, {
       success: true,
       message:
         result === "waitlisted"

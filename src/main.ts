@@ -36,6 +36,10 @@ app.post("/", auth, async (c) => {
 
   const queueResult = await RegistrationResultModel.poll(key);
 
+  if (!queueResult) {
+    return c.json({ message: "Queue timed out" });
+  }
+
   return c.json(queueResult);
 });
 
