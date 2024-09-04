@@ -8,6 +8,10 @@ import { kv } from "./kv.ts";
 
 const app = new Hono();
 
+app.get("/health", (c) => {
+  return c.json({ status: "ok" });
+});
+
 app.post("/", auth, async (c) => {
   const json = await c.req.json<RegistrationRequest>().catch(() => {
     return undefined;

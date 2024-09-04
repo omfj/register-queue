@@ -5,6 +5,7 @@ primary_region = 'arn'
 
 [env]
   PORT = '8000'
+  DENO_KV_SQLITE_PATH = "/data/denokv.sqlite3"
 
 [processes]
   app = 'serve --allow-net --allow-env --unstable-kv ./src/main.ts'
@@ -21,3 +22,7 @@ primary_region = 'arn'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
+
+[mounts]
+  destination = "/data"
+  source = "denokv_data"
