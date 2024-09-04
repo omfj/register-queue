@@ -38,7 +38,7 @@ app.post("/", auth, async (c) => {
     Logger.log(`❌ Failed to enqueue ${key}: ${JSON.stringify(json)}`);
   }
 
-  const queueResult = await RegistrationResultModel.poll(key);
+  const queueResult = await RegistrationResultModel.poll(key, 100, 2000);
 
   if (!queueResult) {
     return c.json({ success: false, message: "Queue timed out" });
