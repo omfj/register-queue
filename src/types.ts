@@ -1,12 +1,12 @@
 export type Answer = Array<string> | string | undefined;
 
-export interface Question {
+export type Question = {
   questionId: string;
   answer: Answer;
-}
+};
 
-export interface RegistrationRequest {
+export type RegistrationRequest = {
   userId: string;
   happeningId: string;
   questions: Array<Question>;
-}
+};

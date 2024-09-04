@@ -1,7 +1,10 @@
 import { Hono } from "hono";
 import { RegistrationRequest } from "./types.ts";
-import { enqueueRegistrationRequest } from "./registration-queue.ts";
 import { auth } from "./middleware.ts";
+import { RegistrationQueue } from "./registration-queue.ts";
+import { RegistrationResultModel } from "./registration-result-model.ts";
+import { queueProcessor } from "./lib/queue.ts";
+import { kv } from "./kv.ts";
 
 const app = new Hono();
 
@@ -19,7 +22,7 @@ app.post("/", auth, async (c) => {
     );
   }
 
-  const { key, result } = await enqueueRegistrationRequest(json);
+  const { key, result } = await RegistrationQueue.enqueue(json);
 
   if (result.ok) {
     console.log(`✅ Successfully enqueued ${key}: ${JSON.stringify(json)}`);
@@ -27,9 +30,13 @@ app.post("/", auth, async (c) => {
     console.log(`❌ Failed to enqueue ${key}: ${JSON.stringify(json)}`);
   }
 
-  return c.json({
-    message: "OK",
-  });
+  const queueResult = await RegistrationResultModel.poll(key);
+
+  return c.json(queueResult);
+});
+
+queueProcessor(kv, {
+  queues: [RegistrationQueue],
 });
 
 export default app;

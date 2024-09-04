@@ -1,8 +1,3 @@
-# fly.toml app configuration file generated for register-queue on 2024-09-01T14:41:59+02:00
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
-
 app = 'register-queue'
 primary_region = 'arn'
 
@@ -12,7 +7,7 @@ primary_region = 'arn'
   PORT = '8080'
 
 [processes]
-  app = 'run --allow-net ./example.ts'
+  app = 'serve --allow-net --env ./src/main.ts'
 
 [http_service]
   internal_port = 8000

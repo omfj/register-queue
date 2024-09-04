@@ -1,5 +1,5 @@
 import { Kysely, CamelCasePlugin, PostgresDialect } from "kysely";
-import { type DB } from "./database.types.ts";
+import { type DB } from "../database.types.ts";
 // @ts-types="npm:@types/pg"
 import pg from "pg";
 
