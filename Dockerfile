@@ -22,4 +22,4 @@ WORKDIR /deno-dir
 COPY . .
 
 ENTRYPOINT ["/bin/deno"]
-CMD ["serve", "--allow-net", "--allow-env", "--unstable-kv", "src/main.ts"]
+CMD ["serve", "-A", "--unstable-kv", "src/main.ts"]

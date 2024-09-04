@@ -8,7 +8,7 @@ primary_region = 'arn'
   DENO_KV_SQLITE_PATH = "/data/denokv.sqlite3"
 
 [processes]
-  app = 'serve --allow-net --allow-env --unstable-kv ./src/main.ts'
+  app = 'serve -A --unstable-kv ./src/main.ts'
 
 [http_service]
   internal_port = 8000

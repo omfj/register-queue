@@ -1,12 +1,16 @@
 import { Hono } from "hono";
 import { RegistrationRequest } from "./types.ts";
-import { auth } from "./middleware.ts";
-import { RegistrationQueue } from "./registration-queue.ts";
-import { RegistrationResultModel } from "./registration-result-model.ts";
-import { queueProcessor } from "./lib/queue.ts";
-import { kv } from "./kv.ts";
+import { auth } from "./middleware/auth.ts";
+import { logger } from "./middleware/logger.ts";
+import { RegistrationQueue } from "./queues/registration-queue.ts";
+import { RegistrationResultModel } from "./models/registration-result-model.ts";
+import { queueProcessor } from "./lib/queue-processor.ts";
+import { kv } from "./storage/kv.ts";
+import { Logger } from "./lib/logger.ts";
 
 const app = new Hono();
+
+app.use(logger);
 
 app.get("/health", (c) => {
   return c.json({ status: "ok" });
@@ -29,15 +33,15 @@ app.post("/", auth, async (c) => {
   const { key, result } = await RegistrationQueue.enqueue(json);
 
   if (result.ok) {
-    console.log(`✅ Successfully enqueued ${key}: ${JSON.stringify(json)}`);
+    Logger.log(`✅ Successfully enqueued ${key}: ${JSON.stringify(json)}`);
   } else {
-    console.log(`❌ Failed to enqueue ${key}: ${JSON.stringify(json)}`);
+    Logger.log(`❌ Failed to enqueue ${key}: ${JSON.stringify(json)}`);
   }
 
   const queueResult = await RegistrationResultModel.poll(key);
 
   if (!queueResult) {
-    return c.json({ message: "Queue timed out" });
+    return c.json({ success: false, message: "Queue timed out" });
   }
 
   return c.json(queueResult);

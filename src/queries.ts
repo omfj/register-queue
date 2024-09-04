@@ -1,5 +1,5 @@
 import { sql } from "kysely";
-import { db } from "./db.ts";
+import { db } from "./storage/db.ts";
 
 export const selectCompleteUserById = async (userId: string) => {
   return await db
@@ -102,7 +102,8 @@ export const insertUserRegistration = async (
         return "success" as const;
       });
   } catch (e) {
-    console.error("FATAL ERROR", e);
+    // deno-lint-ignore no-console
+    console.error("FATAL ERROR", e, e.stack);
 
     return "failure" as const;
   }

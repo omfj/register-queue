@@ -1,10 +1,7 @@
+import { Logger } from "./logger.ts";
+
 type ModelOptions = {
   prefix: string;
-};
-
-type ModelPollOptions = {
-  wait: number;
-  timeLeft: number;
 };
 
 export class Model<T> {
@@ -26,10 +23,12 @@ export class Model<T> {
 
   poll = async (
     key: string,
-    { timeLeft, wait }: ModelPollOptions = { wait: 100, timeLeft: 2000 }
+    wait: number = 100,
+    duration: number = 1000,
+    n: number = 0
   ): Promise<T | null> => {
-    if (timeLeft < 0) {
-      console.log(`⌛ Polling ${key} timed out`);
+    if (duration <= 0) {
+      Logger.log(`⌛ Polling ${key} timed out`);
       return null;
     }
 
@@ -39,6 +38,8 @@ export class Model<T> {
     }
 
     await new Promise((resolve) => setTimeout(resolve, wait));
-    return this.poll(key, { timeLeft: timeLeft - wait, wait });
+
+    const newDuration = duration - wait;
+    return await this.poll(key, wait, newDuration, n + 1);
   };
 }
