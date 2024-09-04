@@ -29,6 +29,7 @@ export class Model<T> {
     { timeLeft, wait }: ModelPollOptions = { wait: 100, timeLeft: 2000 }
   ): Promise<T | null> => {
     if (timeLeft < 0) {
+      console.log(`⌛ Polling ${key} timed out`);
       return null;
     }
 
