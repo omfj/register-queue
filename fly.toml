@@ -4,10 +4,10 @@ primary_region = 'arn'
 [build]
 
 [env]
-  PORT = '8080'
+  PORT = '8000'
 
 [processes]
-  app = 'serve --allow-net --env ./src/main.ts'
+  app = 'serve --allow-net --allow-env --unstable-kv ./src/main.ts'
 
 [http_service]
   internal_port = 8000

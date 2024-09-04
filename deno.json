@@ -1,7 +1,7 @@
 {
   "tasks": {
-    "start": "deno serve -A --env --unstable-kv src/main.ts",
-    "dev": "deno serve -A --env --unstable-kv --watch src/main.ts"
+    "start": "deno serve --allow-env --allow-net --unstable-kv src/main.ts",
+    "dev": "deno serve --allow-env --allow-net --unstable-kv --watch src/main.ts"
   },
   "imports": {
     "hono": "npm:hono@^4.5.10",
