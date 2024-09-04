@@ -26,7 +26,7 @@ export class Model<T> {
 
   poll = async (
     key: string,
-    { timeLeft, wait }: ModelPollOptions = { wait: 1000, timeLeft: 1000 }
+    { timeLeft, wait }: ModelPollOptions = { wait: 100, timeLeft: 2000 }
   ): Promise<T | null> => {
     if (timeLeft < 0) {
       return null;
